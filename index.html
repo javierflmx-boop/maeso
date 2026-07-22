@@ -25,14 +25,8 @@
   .page.active { display: flex; flex-direction: column; }
 
   /* BG */
-  .bg { position: fixed; inset: 0; z-index: 0; background: #080808; }
-  .bg-ov { 
-    position: fixed; inset: 0; z-index: 1; 
-    background: 
-      radial-gradient(ellipse at 50% 45%, rgba(55,42,28,0.7) 0%, rgba(30,22,14,0.4) 35%, rgba(8,8,8,0.0) 65%),
-      repeating-linear-gradient(0deg, transparent 0px, transparent 28px, rgba(255,255,255,0.012) 28px, rgba(255,255,255,0.012) 29px),
-      repeating-linear-gradient(90deg, transparent 0px, transparent 18px, rgba(255,255,255,0.008) 18px, rgba(255,255,255,0.008) 19px);
-  }
+  .bg { position: fixed; inset: 0; z-index: 0; background-image: url('IMG_1340.jpg'); background-size: cover; background-position: center; filter: brightness(0.25) saturate(0.6); }
+  .bg-ov { position: fixed; inset: 0; z-index: 1; background: radial-gradient(ellipse at center, rgba(40,35,28,0.6) 0%, rgba(8,8,8,0.96) 65%); }
 
   /* NAV */
   .nav {
