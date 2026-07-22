@@ -485,7 +485,22 @@
           <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="l-pass" type="password" placeholder="••••••••"></div>
           <div class="form-error" id="login-error"></div>
           <button class="btn-submit" onclick="signIn()">Sign In →</button>
+          <p class="form-switch">Forgot password? <a onclick="switchAuth('reset')">Reset it</a></p>
           <p class="form-switch">No account? <a onclick="switchAuth('signup')">Create one free</a></p>
+        </div>
+
+        <!-- RESET PASSWORD -->
+        <div id="auth-reset" style="display:none;">
+          <p style="font-size:0.8rem;color:var(--muted);line-height:1.7;margin-bottom:20px;">Enter your email and we'll send you a link to reset your password.</p>
+          <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="r-email" type="email" placeholder="you@email.com"></div>
+          <div class="form-error" id="reset-error"></div>
+          <div class="success-msg" id="reset-success">
+            <div class="success-mark" style="font-size:1.5rem;">✦</div>
+            <div class="success-title" style="font-size:1.2rem;">Check your email</div>
+            <p class="success-sub">We sent a password reset link to your email. Click it to set a new password.</p>
+          </div>
+          <button class="btn-submit" id="reset-btn" onclick="resetPassword()">Send Reset Link →</button>
+          <p class="form-switch">Remember it? <a onclick="switchAuth('login')">Sign in</a></p>
         </div>
       </div>
     </div>
@@ -694,14 +709,34 @@ async function submitBrief() {
 // ── AUTH ──
 function switchAuth(mode) {
   const isSignup = mode === 'signup';
+  const isReset = mode === 'reset';
+  const isLogin = mode === 'login';
   document.getElementById('auth-signup').style.display = isSignup ? 'block' : 'none';
-  document.getElementById('auth-login').style.display = isSignup ? 'none' : 'block';
+  document.getElementById('auth-login').style.display = isLogin ? 'block' : 'none';
+  document.getElementById('auth-reset').style.display = isReset ? 'block' : 'none';
   document.getElementById('auth-tab-signup').classList.toggle('on', isSignup);
-  document.getElementById('auth-tab-login').classList.toggle('on', !isSignup);
-  document.getElementById('auth-title').textContent = isSignup ? 'Join Maeso' : 'Welcome back';
+  document.getElementById('auth-tab-login').classList.toggle('on', isLogin || isReset);
+  document.getElementById('auth-title').textContent = isSignup ? 'Join Maeso' : isReset ? 'Reset Password' : 'Welcome back';
   document.getElementById('auth-sub').textContent = isSignup
     ? 'Create your contractor profile. Get your own page. Start receiving qualified briefs.'
+    : isReset ? 'We will send a reset link to your email.'
     : 'Sign in to your Maeso account to view your briefs and manage your profile.';
+}
+
+async function resetPassword() {
+  const email = document.getElementById('r-email').value.trim();
+  const err = document.getElementById('reset-error');
+  const btn = document.getElementById('reset-btn');
+  if (!email) { err.textContent = 'Please enter your email.'; return; }
+  err.textContent = '';
+  btn.textContent = 'Sending...'; btn.disabled = true;
+  const { error } = await db.auth.resetPasswordForEmail(email, {
+    redirectTo: 'https://maeso.app'
+  });
+  btn.textContent = 'Send Reset Link →'; btn.disabled = false;
+  if (error) { err.textContent = error.message; return; }
+  document.getElementById('reset-btn').style.display = 'none';
+  document.getElementById('reset-success').classList.add('show');
 }
 
 async function signUp() {
