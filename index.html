@@ -502,6 +502,15 @@
           <button class="btn-submit" id="reset-btn" onclick="resetPassword()">Send Reset Link →</button>
           <p class="form-switch">Remember it? <a onclick="switchAuth('login')">Sign in</a></p>
         </div>
+
+        <!-- NEW PASSWORD FORM — shown after clicking reset link -->
+        <div id="auth-newpass" style="display:none;">
+          <p style="font-size:0.8rem;color:var(--muted);line-height:1.7;margin-bottom:20px;">Enter your new password below.</p>
+          <div class="form-group"><label class="form-label">New Password</label><input class="form-input" id="np-pass" type="password" placeholder="••••••••"></div>
+          <div class="form-group"><label class="form-label">Confirm Password</label><input class="form-input" id="np-confirm" type="password" placeholder="••••••••"></div>
+          <div class="form-error" id="newpass-error"></div>
+          <button class="btn-submit" onclick="setNewPassword()">Set New Password →</button>
+        </div>
       </div>
     </div>
   </div>
@@ -588,8 +597,32 @@ let activeHomeTab = null;
 db.auth.onAuthStateChange(async (event, session) => {
   currentUser = session?.user || null;
   updateNav();
+  if (event === 'PASSWORD_RECOVERY') {
+    // User clicked reset link — show new password form
+    showPage('auth');
+    document.getElementById('auth-signup').style.display = 'none';
+    document.getElementById('auth-login').style.display = 'none';
+    document.getElementById('auth-reset').style.display = 'none';
+    document.getElementById('auth-newpass').style.display = 'block';
+    document.getElementById('auth-title').textContent = 'Set New Password';
+    document.getElementById('auth-sub').textContent = 'Choose a new password for your Maeso account.';
+    return;
+  }
   if (currentUser) await loadProfile();
 });
+
+async function setNewPassword() {
+  const pass = document.getElementById('np-pass').value;
+  const confirm = document.getElementById('np-confirm').value;
+  const err = document.getElementById('newpass-error');
+  if (pass.length < 6) { err.textContent = 'Password must be at least 6 characters.'; return; }
+  if (pass !== confirm) { err.textContent = 'Passwords do not match.'; return; }
+  err.textContent = '';
+  const { error } = await db.auth.updateUser({ password: pass });
+  if (error) { err.textContent = error.message; return; }
+  showToast('Password updated! Signing you in...');
+  setTimeout(() => showPage('dashboard'), 1500);
+}
 
 async function init() {
   const { data: { session } } = await db.auth.getSession();
