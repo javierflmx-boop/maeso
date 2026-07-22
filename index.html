@@ -238,8 +238,8 @@
         </div>
         <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="bf-email" type="email" placeholder="your@email.com" required></div>
 
-        <!-- Kitchen specific -->
-        <div id="kitchen-extras" style="display:none;">
+        <!-- KITCHEN -->
+        <div id="extras-Kitchen" style="display:none;">
           <div class="form-group"><label class="form-label">Cabinet Style</label>
             <select class="form-select" id="bf-cabinet-style">
               <option value="">Select style</option>
@@ -263,6 +263,150 @@
               <select class="form-select" id="bf-layout">
                 <option value="">Select layout</option>
                 <option>Galley</option><option>L-Shape</option><option>U-Shape</option><option>Open concept</option><option>Island</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group"><label class="form-label">Appliances</label>
+            <select class="form-select" id="bf-appliances">
+              <option value="">Select</option>
+              <option>I have my own appliances</option>
+              <option>I need new appliances included</option>
+              <option>Just cabinetry and counters for now</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- BATHROOM -->
+        <div id="extras-Bathroom" style="display:none;">
+          <div class="form-group"><label class="form-label">Scope of Work</label>
+            <select class="form-select" id="bf-bath-scope">
+              <option value="">Select scope</option>
+              <option>Full renovation — everything</option>
+              <option>Shower only</option>
+              <option>Bathtub only</option>
+              <option>Vanity and sink only</option>
+              <option>Flooring only</option>
+              <option>Partial — I will describe below</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Bathtub / Shower</label>
+            <select class="form-select" id="bf-bath-type">
+              <option value="">Select preference</option>
+              <option>Shower only — no tub</option>
+              <option>Bathtub only</option>
+              <option>Both — tub and shower</option>
+              <option>Walk-in shower</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Tile Size Preference</label>
+            <select class="form-select" id="bf-tile-size">
+              <option value="">Select preference</option>
+              <option>Small mosaic — classic look</option>
+              <option>Medium format (12x12 or similar)</option>
+              <option>Large format (24x24 or bigger)</option>
+              <option>Subway tile</option>
+              <option>No preference — surprise me</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- PAINTING -->
+        <div id="extras-Painting" style="display:none;">
+          <div class="form-group"><label class="form-label">Interior or Exterior?</label>
+            <select class="form-select" id="bf-paint-type" onchange="toggleExterior()">
+              <option value="">Select</option>
+              <option value="Interior">Interior</option>
+              <option value="Exterior">Exterior</option>
+              <option value="Both">Both interior and exterior</option>
+            </select>
+          </div>
+          <div id="exterior-fields" style="display:none;">
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Number of Floors</label>
+                <select class="form-select" id="bf-floors">
+                  <option value="">Select</option>
+                  <option>1 floor</option>
+                  <option>2 floors</option>
+                  <option>3+ floors</option>
+                </select>
+              </div>
+              <div class="form-group"><label class="form-label">House SF (approx)</label>
+                <input class="form-input" id="bf-sf" type="text" placeholder="e.g. 2,000 sq ft">
+              </div>
+            </div>
+          </div>
+          <div class="form-group"><label class="form-label">Current Paint Condition</label>
+            <select class="form-select" id="bf-paint-condition">
+              <option value="">Select condition</option>
+              <option>Good — just want a new color</option>
+              <option>Peeling or cracking in some areas</option>
+              <option>Needs full primer and prep</option>
+              <option>Not sure</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Color Direction</label>
+            <select class="form-select" id="bf-paint-color">
+              <option value="">Select preference</option>
+              <option>I have specific colors in mind</option>
+              <option>I have a general direction — I will describe</option>
+              <option>Surprise me — I trust your taste</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- STAIRS -->
+        <div id="extras-Stairs" style="display:none;">
+          <div class="form-group"><label class="form-label">Type of Stairs</label>
+            <select class="form-select" id="bf-stair-type">
+              <option value="">Select</option>
+              <option>Straight staircase</option>
+              <option>L-shaped staircase</option>
+              <option>Spiral staircase</option>
+              <option>Floating / open riser</option>
+              <option>Not sure — I want your recommendation</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Material Preference</label>
+            <select class="form-select" id="bf-stair-material">
+              <option value="">Select</option>
+              <option>Wood — natural</option>
+              <option>Wood — painted</option>
+              <option>Tile</option>
+              <option>Metal / Steel</option>
+              <option>Mixed — wood and metal</option>
+              <option>Not sure</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- INTERIOR DESIGN -->
+        <div id="extras-Interior Design" style="display:none;">
+          <div class="form-group"><label class="form-label">What Spaces Are Involved?</label>
+            <select class="form-select" id="bf-id-spaces">
+              <option value="">Select</option>
+              <option>Living room</option>
+              <option>Master bedroom</option>
+              <option>Full home</option>
+              <option>Kitchen and dining</option>
+              <option>Home office</option>
+              <option>Multiple rooms — I will describe</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- CUSTOM -->
+        <div id="extras-Custom Project" style="display:none;">
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Approximate SF / Size</label>
+              <input class="form-input" id="bf-custom-sf" type="text" placeholder="e.g. 500 sq ft or 20x30 ft">
+            </div>
+            <div class="form-group"><label class="form-label">Do You Have Measurements?</label>
+              <select class="form-select" id="bf-custom-measurements">
+                <option value="">Select</option>
+                <option>Yes — I have exact measurements</option>
+                <option>Approximate only</option>
+                <option>No — I need you to measure</option>
               </select>
             </div>
           </div>
@@ -468,7 +612,19 @@ function openPanel(cat, el) {
   activeHomeTab = el;
   document.getElementById('brief-project-type').value = cat;
   document.getElementById('panel-cat-name').textContent = cat.toLowerCase();
-  document.getElementById('kitchen-extras').style.display = cat === 'Kitchen' ? 'block' : 'none';
+
+  // Hide all extras
+  ['Kitchen','Bathroom','Painting','Stairs','Interior Design','Custom Project'].forEach(c => {
+    const el = document.getElementById('extras-' + c);
+    if (el) el.style.display = 'none';
+  });
+  // Show current
+  const extras = document.getElementById('extras-' + cat);
+  if (extras) extras.style.display = 'block';
+
+  // Reset exterior fields
+  const extFields = document.getElementById('exterior-fields');
+  if (extFields) extFields.style.display = 'none';
   document.getElementById('brief-panel').classList.add('open');
   document.getElementById('brief-form').style.display = 'block';
   document.getElementById('brief-success').classList.remove('show');
@@ -496,10 +652,32 @@ async function submitBrief() {
     description: document.getElementById('bf-desc').value,
     budget: document.getElementById('bf-budget').value,
     timeline: document.getElementById('bf-timeline').value,
+    // Kitchen
     cabinet_style: document.getElementById('bf-cabinet-style')?.value || null,
     cabinet_finish: document.getElementById('bf-cabinet-finish')?.value || null,
     countertop: document.getElementById('bf-countertop')?.value || null,
     layout: document.getElementById('bf-layout')?.value || null,
+    // All extras as JSON in description supplement
+    extra_details: JSON.stringify({
+      // Bathroom
+      bath_scope: document.getElementById('bf-bath-scope')?.value,
+      bath_type: document.getElementById('bf-bath-type')?.value,
+      tile_size: document.getElementById('bf-tile-size')?.value,
+      // Painting
+      paint_type: document.getElementById('bf-paint-type')?.value,
+      floors: document.getElementById('bf-floors')?.value,
+      house_sf: document.getElementById('bf-sf')?.value,
+      paint_condition: document.getElementById('bf-paint-condition')?.value,
+      paint_color: document.getElementById('bf-paint-color')?.value,
+      // Stairs
+      stair_type: document.getElementById('bf-stair-type')?.value,
+      stair_material: document.getElementById('bf-stair-material')?.value,
+      // Interior Design
+      id_spaces: document.getElementById('bf-id-spaces')?.value,
+      // Custom
+      custom_sf: document.getElementById('bf-custom-sf')?.value,
+      custom_measurements: document.getElementById('bf-custom-measurements')?.value,
+    })
   };
 
   // Find contractor by slug
@@ -679,6 +857,12 @@ function timeAgo(ts) {
   const h = Math.floor(m/60);
   if (h < 24) return h + 'h ago';
   return Math.floor(h/24) + 'd ago';
+}
+
+function toggleExterior() {
+  const val = document.getElementById('bf-paint-type')?.value;
+  const ext = document.getElementById('exterior-fields');
+  if (ext) ext.style.display = (val === 'Exterior' || val === 'Both') ? 'block' : 'none';
 }
 
 function showToast(msg) {
