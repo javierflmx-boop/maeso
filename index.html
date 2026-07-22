@@ -629,6 +629,36 @@ async function init() {
   currentUser = session?.user || null;
   updateNav();
   if (currentUser) await loadProfile();
+
+  // Check URL path for contractor slug
+  const path = window.location.pathname.replace('/', '').trim();
+  if (path && path !== '' && !['auth','dashboard','profile'].includes(path)) {
+    // Load contractor page by slug
+    await loadContractorPage(path);
+    return;
+  }
+}
+
+async function loadContractorPage(slug) {
+  const { data: contractor } = await db.from('contractors').select('*').eq('slug', slug).single();
+  if (!contractor) { showPage('home'); return; }
+
+  // Update home page for this contractor
+  document.getElementById('page-home').style.display = 'flex';
+  document.getElementById('page-home').style.flexDirection = 'column';
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-home').classList.add('active');
+
+  // Hide login/join buttons
+  document.getElementById('nav-login-btn').style.display = 'none';
+  document.getElementById('nav-signup-btn').style.display = 'none';
+
+  // Show contractor name in nav
+  document.getElementById('nav-user-name').textContent = contractor.business_name || contractor.owner_name || '';
+  document.getElementById('nav-user-name').style.display = 'block';
+
+  // Store contractor for brief submission
+  window.activeContractor = contractor;
 }
 init();
 
@@ -728,9 +758,11 @@ async function submitBrief() {
     })
   };
 
-  // Find contractor by slug
-  const { data: contractor } = await db.from('contractors').select('id').eq('slug','407renovations').single();
-  if (contractor) brief.contractor_id = contractor.id;
+  // Find contractor by slug or active contractor from URL
+  const activeC = window.activeContractor;
+  const slug = activeC?.slug || '407renovations';
+  const { data: contractor } = activeC ? { data: activeC } : await db.from('contractors').select('id').eq('slug', slug).single();
+  if (contractor) { brief.contractor_id = contractor.id; brief.contractor_slug = contractor.slug || slug; }
 
   const { error } = await db.from('briefs').insert(brief);
   btn.textContent = 'Send My Brief →'; btn.disabled = false;
@@ -826,7 +858,8 @@ function loadProfilePage() {
   document.getElementById('p-phone').value = contractorProfile.phone || '';
   document.getElementById('p-city').value = contractorProfile.city || '';
   document.getElementById('p-bio').value = contractorProfile.bio || '';
-  document.getElementById('profile-link-display').textContent = 'maeso.app/' + (contractorProfile.slug || '');
+  const slug = contractorProfile.slug || 'yourslug';
+  document.getElementById('profile-link-display').textContent = 'maeso.app/' + slug;
 }
 
 async function saveProfile() {
