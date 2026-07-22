@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>407 Renovations · Maeso</title>
+<title>Maeso</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;1,200;1,300&family=Outfit:wght@200;300;400&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -182,7 +182,12 @@
   <nav class="nav">
     <div class="nav-logo" onclick="showPage('home')">MAESO</div>
     <div class="nav-right">
-      <span class="nav-user" style="color:var(--muted);font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;">407 Renovations</span>
+      <span class="nav-user" id="nav-user-name"></span>
+      <button class="nav-btn" id="nav-dashboard-btn" onclick="showPage('dashboard')" style="display:none;">Dashboard</button>
+      <button class="nav-btn" id="nav-profile-btn" onclick="showPage('profile')" style="display:none;">My Profile</button>
+      <button class="nav-btn" id="nav-logout-btn" onclick="logout()" style="display:none;">Logout</button>
+      <button class="nav-btn" id="nav-login-btn" onclick="showPage('auth')">Login</button>
+      <button class="nav-btn primary" id="nav-signup-btn" onclick="showPage('auth', 'signup')">Join Free</button>
     </div>
   </nav>
   <div class="content">
